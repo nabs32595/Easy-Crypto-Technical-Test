@@ -2,68 +2,81 @@
   <div id="app">
     <section class="ec-section has-wave-top has-wave-bottom ec-section-light-gray">
       <div class="container is-max-widescreen">
-        <!--        <div class="columns mobile-margin">-->
-        <!--          <div class="column">-->
-        <!--            <div class="level pb-0 pt-3">-->
-        <!--              <div class="level-left level-item">-->
-        <!--                <div class="level-item">-->
-        <!--                  <h2 class="title is-4">-->
-        <!--                    All Rates-->
-        <!--                  </h2>-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div><div class="column is-4 has-text-align-right">-->
-        <!--            <div class="field is-grouped">-->
-        <!--              <div class="control is-expanded has-icons-left">-->
-        <!--                <input debounce-events="input" type="search" placeholder="Filter list" class="input is-small"><span class="icon is-small is-left"><i class="fa fa-search" /></span>-->
-        <!--              </div><div class="field is-grouped">-->
-        <!--                <label class="switch is-rounded"><input type="checkbox" true-value="true" value="false"><span class="check" /><span class="control-label">USD</span></label>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
+        <b-table
+          v-if="checkedRows.length > 0"
+          ref="multiSortTable"
+          class="mb-5"
+          :data="checkedRows"
+          :mobile-cards="false"
+        >
+          <b-table-column v-slot="props" field="name" label="Name" sortable>
+            {{ props.row.name }}
+          </b-table-column>
+
+          <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
+            {{ props.row.symbol }}
+          </b-table-column>
+
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
+            {{ props.row.rate }}
+          </b-table-column>
+        </b-table>
+
+        <div class="columns mobile-margin">
+          <div class="column">
+            <div class="level pb-0 pt-3">
+              <div class="level-left level-item">
+                <div class="level-item">
+                  <h2 class="title is-4">
+                    All Rates
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-4 has-text-align-right">
+            <div class="field is-grouped">
+              <div class="control is-expanded has-icons-left">
+                <b-input
+                  v-model="filterName"
+                  placeholder="Filter list"
+                  icon="magnify"
+                  icon-clickable
+                  icon-right-clickable
+                  icon-right="close-circle"
+                  @icon-right-click="filterName = []"
+                />
+              </div><div class="field is-grouped">
+                <label class="switch is-rounded"><input type="checkbox" value="false"><span class="check" /><span class="control-label">USD</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <b-table
           ref="multiSortTable"
-          :data="data"
+          class="my-2 box"
+          :data="filter"
           :paginated="true"
           :per-page="20"
           :current-page.sync="currentPage"
           :pagination-position="paginationPosition"
-          :default-sort-direction="defaultSortDirection"
-          :sort-icon="sortIcon"
           :mobile-cards="false"
           checkable
           checkbox-position="right"
           header-checkable="false"
           :checked-rows.sync="checkedRows"
         >
-          <b-table-column v-slot="props" label="Name" sortable searchable>
+          <b-table-column v-slot="props" field="name" label="Name" sortable>
             {{ props.row.name }}
           </b-table-column>
 
-          <b-table-column v-slot="props" label="Symbol" sortable entered>
+          <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
             {{ props.row.symbol }}
           </b-table-column>
 
-          <b-table-column v-slot="props" field="symbol" label="Sell" sortable centered>
-            {{ props.row.symbol }}
-          </b-table-column>
-
-          <b-table-column v-slot="props" field="symbol" label="Buy" sortable centered>
-            {{ props.row.symbol }}
-          </b-table-column>
-
-          <b-table-column v-slot="props" field="symbol" label="Symbol" sortable centered>
-            {{ props.row.symbol }}
-          </b-table-column>
-
-          <b-table-column v-slot="props" field="symbol" label="24h" sortable centered>
-            {{ props.row.symbol }}
-          </b-table-column>
-
-          <b-table-column>
-            <b-button type="is-success" rounded centered label="buy" />
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
+            {{ props.row.rate }}
           </b-table-column>
         </b-table>
       </div>
@@ -77,21 +90,38 @@ export default {
   data () {
     return {
       checkedRows: [],
-      data: [],
       defaultSortDirection: 'asc',
       sortIcon: 'arrow-up',
       paginationPosition: 'bottom',
       currentPage: 1,
       perPage: 20,
-      rates: []
+      rates: [],
+      filterName: ''
     }
   },
-  mounted () {
-
+  computed: {
+    filter () {
+      const filter = new RegExp(this.filterName, 'i')
+      const data = []
+      this.rates.forEach((item, index) => {
+        if (this.rates[index].name.match(filter) || this.rates[index].symbol.match(filter) || String(this.rates[index].rate).match(filter)) {
+          data.push(this.rates[index])
+        }
+      })
+      return data
+    }
   },
+  // watch: {
+  //   checkedRows () {
+  //     const starCoin = []
+  //     this.checkedRows.forEach((item, index) => {
+  //       starCoin.push(this.rates[index])
+  //     })
+  //   }
+  // },
   created () {
     this.$axios.$get('https://r.easycrypto.nz/json/backenddb.json').then((res) => {
-      this.data = Object.entries(res).map(e => e[1])
+      this.rates = Object.entries(res).map(e => e[1])
     })
   },
   methods: {}
