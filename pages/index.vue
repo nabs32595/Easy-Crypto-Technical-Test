@@ -14,7 +14,7 @@
 
     <section class="ec-section ec-section-light-gray">
       <div class="container is-max-widescreen column">
-        <div v-if="checkedRows.length> 0">
+        <div v-if="favCoin.length>0">
           <div class="columns mobile-margin">
             <div class="column">
               <div class="level pb-0">
@@ -28,11 +28,10 @@
               </div>
             </div>
           </div>
-
           <b-table
             ref="multiSortTable"
             class="mb-5 box box-shadow"
-            :data="checkedRows"
+            :data="favCoin"
             :mobile-cards="false"
             checkable
             checkbox-position="right"
@@ -54,7 +53,7 @@
             </b-table-column>
 
             <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
-              {{ props.row.rate }}
+              {{ props.row.rate ? props.row.rate: " " }}
             </b-table-column>
 
             <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
@@ -181,7 +180,8 @@ export default {
   components: { TopCoinOfTheWeek },
   data () {
     return {
-      starCoin: [],
+      favCoin: [],
+      favCoinn: [],
       checkedRows: [],
       defaultSortDirection: 'asc',
       sortIcon: 'arrow-up',
@@ -206,13 +206,17 @@ export default {
   },
   watch: {
     checkedRows () {
-      localStorage.setItem('mytime', Date.now())
+      localStorage.setItem('favCoin', JSON.stringify(this.checkedRows))
+      this.favCoin = this.checkedRows
     }
   },
   created () {
     this.$axios.$get('https://r.easycrypto.nz/json/backenddb.json').then((res) => {
       this.rates = Object.entries(res).map(e => e[1])
     })
+  },
+  mounted () {
+    this.favCoin = JSON.parse(localStorage.getItem('favCoin') || '[]')
   },
   methods: {
     snackbar (payload) {
