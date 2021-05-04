@@ -57,36 +57,6 @@
             </div>
           </div>
         </div>
-        <div class="box mb-3">
-          <div class="level is-mobile is-size-4 is-size-5-touch cursor">
-            <div class="level-left">
-              <div class="level-item">
-                <figure class="image is-24x24">
-                  <img src="https://static.easycrypto.nz/img/coins/ETC.png" alt="ETC Ethereum Classic">
-                </figure>
-              </div>
-              <div class="level-item">
-                <span>
-                  <span class="b-tooltip is-primary is-top is-medium">
-                    <div class="tooltip-content" style="display: none;">ETC Ethereum Classic</div>
-                    <div class="tooltip-trigger">ETC Ethereum Cla...</div>
-                  </span>
-                </span>
-                <span class="has-text-grey-light is-size-6">&nbsp;(ETC)</span>
-              </div>
-            </div>
-            <div class="level-right">
-              <div class="level-item mr-4">
-                <span class="has-text-weight-medium"><span class="has-text-success no-break">+14.5%</span></span>
-              </div>
-              <div class="level-item">
-                <button type="button" class="button is-size-7 is-size-6-mobile">
-                  <span>Buy</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="column">
         <h2 class="title is-4">
@@ -133,32 +103,6 @@
             <div class="level-right">
               <div class="level-item mr-4">
                 <span class="has-text-weight-medium"><span class="has-text-success no-break">+94.5%</span></span>
-              </div>
-              <div class="level-item">
-                <button type="button" class="button is-size-7 is-size-6-mobile">
-                  <span>Buy</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="box mb-3">
-          <div class="level is-mobile is-size-4 is-size-5-touch cursor">
-            <div class="level-left">
-              <div class="level-item">
-                <figure class="image is-24x24">
-                  <img src="https://static.easycrypto.nz/img/coins/ETC.png" alt="ETC Ethereum Classic">
-                </figure>
-              </div>
-              <div class="level-item">
-                <span><span class="b-tooltip is-primary is-top is-medium"><div class="tooltip-content" style="display: none;">ETC Ethereum Classic</div><div class="tooltip-trigger">
-                  ETC Ethereum Cla...
-                </div></span></span><span class="has-text-grey-light is-size-6">&nbsp;(ETC)</span>
-              </div>
-            </div>
-            <div class="level-right">
-              <div class="level-item mr-4">
-                <span class="has-text-weight-medium"><span class="has-text-success no-break">+61.9%</span></span>
               </div>
               <div class="level-item">
                 <button type="button" class="button is-size-7 is-size-6-mobile">

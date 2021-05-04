@@ -13,7 +13,7 @@
     </section>
 
     <section class="ec-section ec-section-light-gray">
-      <div class="container is-max-widescreen">
+      <div class="container is-max-widescreen column">
         <div v-if="checkedRows.length> 0">
           <div class="columns mobile-margin">
             <div class="column">
@@ -28,6 +28,7 @@
               </div>
             </div>
           </div>
+
           <b-table
             ref="multiSortTable"
             class="mb-5 box box-shadow"
@@ -73,11 +74,13 @@
     </section>
 
     <section class="ec-section ec-section-white">
-      <topCoinOfTheWeek />
+      <div class=" container is-max-widescreen  column">
+        <topCoinOfTheWeek />
+      </div>
     </section>
 
     <section class="ec-section ec-section-light-gray">
-      <div class="container is-max-widescreen">
+      <div class="container is-max-widescreen column">
         <div class="columns mobile-margin">
           <div class="column">
             <div class="level">
@@ -86,11 +89,6 @@
                   <h2 class="title is-4">
                     All Rates
                   </h2>
-                </div>
-                <div class="level-item">
-                  <div class="ml-4 is-size-6">
-                    <a href="#" class="">Vote for a new listing!</a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -111,6 +109,7 @@
             </div>
           </div>
         </div>
+
         <b-table
           ref="multiSortTable"
           class="box box-shadow"
@@ -213,7 +212,7 @@ export default {
   created () {
     this.$axios.$get('https://r.easycrypto.nz/json/backenddb.json').then((res) => {
       this.rates = Object.entries(res).map(e => e[1])
-    }
+    })
   },
   methods: {
     snackbar (payload) {
