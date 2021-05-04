@@ -156,18 +156,6 @@
         </b-table>
       </div>
     </section>
-
-    <div id="mobile-bar">
-      <div class="mb-button">
-        <i class="fas fa-chart-line" />
-      </div>
-      <div class="mb-button">
-        <i class="fab fa-btc" />
-      </div>
-      <div class="mb-button mb-selected">
-        <i class="fas fa-list-ul" />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -181,7 +169,6 @@ export default {
   data () {
     return {
       favCoin: [],
-      favCoinn: [],
       checkedRows: [],
       defaultSortDirection: 'asc',
       sortIcon: 'arrow-up',
@@ -207,7 +194,9 @@ export default {
   watch: {
     checkedRows () {
       localStorage.setItem('favCoin', JSON.stringify(this.checkedRows))
-      this.favCoin = this.checkedRows
+      if (this.favCoin) {
+        this.favCoin = this.checkedRows
+      }
     }
   },
   created () {
