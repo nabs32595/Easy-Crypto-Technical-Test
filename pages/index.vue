@@ -35,8 +35,8 @@
             :mobile-cards="false"
             checkable
             checkbox-position="right"
-            :checked-rows.sync="checkedRows"
-            header-checkable:false
+            :checked-rows.sync="favCoinRows"
+            :header-checkable="false"
           >
             <b-table-column v-slot="props" sortable field="symbol">
               <figure class="control image is-32x32">
@@ -64,7 +64,7 @@
               ${{ props.row.rank }}
             </b-table-column>
 
-            <b-table-column v-slot="props">
+            <b-table-column v-slot="props" label="Action">
               <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
             </b-table-column>
           </b-table>
@@ -122,7 +122,7 @@
           checkbox-position="right"
           :checked-rows.sync="checkedRows"
           default-sort="symbol"
-          header-checkable:false
+          :header-checkable="false"
         >
           <b-table-column v-slot="props" sortable field="symbol">
             <figure class="control image is-32x32">
@@ -150,7 +150,7 @@
             ${{ props.row.rank }}
           </b-table-column>
 
-          <b-table-column v-slot="props">
+          <b-table-column v-slot="props" label="Action">
             <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
           </b-table-column>
         </b-table>
@@ -169,6 +169,7 @@ export default {
   data () {
     return {
       favCoin: [],
+      favCoinRows: [],
       checkedRows: [],
       defaultSortDirection: 'asc',
       sortIcon: 'arrow-up',
@@ -193,10 +194,12 @@ export default {
   },
   watch: {
     checkedRows () {
+      if (this.favCoin) { this.favCoin = this.checkedRows }
       localStorage.setItem('favCoin', JSON.stringify(this.checkedRows))
-      if (this.favCoin) {
-        this.favCoin = this.checkedRows
-      }
+    },
+    favCoinRows () {
+      this.favCoin = this.favCoin.filter(item => !this.favCoinRows.includes(item))
+      localStorage.setItem('favCoin', JSON.stringify(this.favCoin))
     }
   },
   created () {
