@@ -207,12 +207,13 @@ export default {
   },
   watch: {
     checkedRows () {
+      localStorage.setItem('mytime', Date.now())
     }
   },
   created () {
     this.$axios.$get('https://r.easycrypto.nz/json/backenddb.json').then((res) => {
       this.rates = Object.entries(res).map(e => e[1])
-    })
+    }
   },
   methods: {
     snackbar (payload) {
