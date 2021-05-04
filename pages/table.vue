@@ -1,35 +1,103 @@
 <template>
   <div id="app">
-    <section class="ec-section has-wave-top has-wave-bottom ec-section-light-gray">
+    <section class="has-text-centered ec-section ec-section-purple">
+      <div class="container">
+        <div class="columns is-variable is-4">
+          <div class="column is-6 is-offset-3">
+            <h1 class="title is-1 is-size-2-mobile has-text-white">
+              Crypto Live Rates
+            </h1>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ec-section  ec-section-light-gray">
       <div class="container is-max-widescreen">
-        <b-table
-          v-if="checkedRows.length > 0"
-          ref="multiSortTable"
-          class="mb-5"
-          :data="checkedRows"
-          :mobile-cards="false"
-        >
-          <b-table-column v-slot="props" field="name" label="Name" sortable>
-            {{ props.row.name }}
-          </b-table-column>
+        <div v-if="checkedRows.length> 0">
+          <div class="columns mobile-margin">
+            <div class="column">
+              <div class="level pb-0">
+                <div class="level-left level-item">
+                  <div class="level-item">
+                    <h2 class="title is-4">
+                      Favourite Coins
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-4 has-text-align-right">
+              <div class="field is-grouped">
+                <div class="control is-expanded has-icons-left">
+                  <b-input
+                    v-model="filterName"
+                    placeholder="Filter list"
+                    icon="magnify"
+                    icon-clickable
+                    icon-right-clickable
+                    icon-right="close-circle"
+                    @icon-right-click="filterName = []"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <b-table
+            ref="multiSortTable"
+            class="mb-5"
+            :data="checkedRows"
+            :mobile-cards="false"
+            checkable
+            checkbox-position="right"
+            :checked-rows.sync="checkedRows"
+            header-checkable:false
+          >
+            <b-table-column v-slot="props" sortable field="symbol">
+              <figure class="control image is-32x32">
+                <img :src="`https://static.easycrypto.nz/img/coins/${props.row.symbol}.png`" :alt="props.row.name">
+              </figure>
+            </b-table-column>
 
-          <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
-            {{ props.row.symbol }}
-          </b-table-column>
+            <b-table-column v-slot="props" field="name" label="Name" sortable>
+              {{ props.row.name }}
+            </b-table-column>
 
-          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
-            {{ props.row.rate }}
-          </b-table-column>
-        </b-table>
+            <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
+              {{ props.row.symbol }}
+            </b-table-column>
+
+            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
+              {{ props.row.rate }}
+            </b-table-column>
+
+            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
+              ${{ props.row.rank }}
+            </b-table-column>
+
+            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell">
+              ${{ props.row.rank }}
+            </b-table-column>
+
+            <b-table-column v-slot="props">
+              <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
+            </b-table-column>
+          </b-table>
+        </div>
 
         <div class="columns mobile-margin">
           <div class="column">
-            <div class="level pb-0 pt-3">
+            <div class="level">
               <div class="level-left level-item">
                 <div class="level-item">
                   <h2 class="title is-4">
                     All Rates
                   </h2>
+                </div>
+                <div class="level-item">
+                  <div class="ml-4 is-size-6">
+                    <a href="#" class="">Vote for a new listing!</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -46,16 +114,13 @@
                   icon-right="close-circle"
                   @icon-right-click="filterName = []"
                 />
-              </div><div class="field is-grouped">
-                <label class="switch is-rounded"><input type="checkbox" value="false"><span class="check" /><span class="control-label">USD</span></label>
               </div>
             </div>
           </div>
         </div>
-
         <b-table
           ref="multiSortTable"
-          class="my-2 box"
+          class="mobile-margin box"
           :data="filter"
           :paginated="true"
           :per-page="20"
@@ -64,9 +129,16 @@
           :mobile-cards="false"
           checkable
           checkbox-position="right"
-          header-checkable="false"
           :checked-rows.sync="checkedRows"
+          default-sort="symbol"
+          header-checkable:false
         >
+          <b-table-column v-slot="props" sortable field="symbol">
+            <figure class="control image is-32x32">
+              <img :src="`https://static.easycrypto.nz/img/coins/${props.row.symbol}.png`" :alt="props.row.name">
+            </figure>
+          </b-table-column>
+
           <b-table-column v-slot="props" field="name" label="Name" sortable>
             {{ props.row.name }}
           </b-table-column>
@@ -78,6 +150,18 @@
           <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
             {{ props.row.rate }}
           </b-table-column>
+
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
+            ${{ props.row.rank }}
+          </b-table-column>
+
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell">
+            ${{ props.row.rank }}
+          </b-table-column>
+
+          <b-table-column v-slot="props">
+            <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
+          </b-table-column>
         </b-table>
       </div>
     </section>
@@ -85,10 +169,12 @@
 </template>
 
 <script>
+
 export default {
   name: 'Table',
   data () {
     return {
+      starCoin: [],
       checkedRows: [],
       defaultSortDirection: 'asc',
       sortIcon: 'arrow-up',
@@ -111,36 +197,40 @@ export default {
       return data
     }
   },
-  // watch: {
-  //   checkedRows () {
-  //     const starCoin = []
-  //     this.checkedRows.forEach((item, index) => {
-  //       starCoin.push(this.rates[index])
-  //     })
-  //   }
-  // },
+  watch: {
+    checkedRows () {
+    }
+  },
   created () {
     this.$axios.$get('https://r.easycrypto.nz/json/backenddb.json').then((res) => {
       this.rates = Object.entries(res).map(e => e[1])
     })
   },
-  methods: {}
+  methods: {
+    snackbar (payload) {
+      this.$buefy.snackbar.open({
+        type: 'is-success',
+        message: `$${payload} has been transferred to your account 😀`
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
 
-.ec-section.has-wave-bottom {
-  padding-bottom: 110px;
-}
-.ec-section.has-wave-top {
-  padding-top: 110px;
-}
 .ec-section-light-gray {
   background-color: #F6F9FE;
 }
+
 .ec-section {
   position: relative;
-  padding: 70px 0;
+  padding: 50px 0;
 }
+
+.ec-section-purple {
+  background: url('http://easycrypto.ai/assets/images/purple.jpg') top center no-repeat #3c0e9b;
+  background-size: cover;
+}
+
 </style>

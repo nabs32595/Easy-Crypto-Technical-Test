@@ -1,5 +1,25 @@
 <template>
   <div>
+    <section class="has-text-centered mb-6 ec-section has-wave-bottom ec-hero-page ec-section-purple">
+      <div class="container">
+        <div class="columns is-variable is-4">
+          <div class="column is-6 is-offset-3">
+            <h1 class="title is-1 is-size-2-mobile has-text-white">
+              Crypto Live Rates
+            </h1><!---->
+          </div>
+        </div>
+      </div><!----><svg
+        width="1440px"
+        height="37px"
+        viewBox="0 0 1440 37"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        class="ec-wave-bottom"
+      ><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(0.000000, -2010.000000)" fill="#FFFFFF" fill-rule="nonzero"><g transform="translate(0.000000, 1380.000000)"><g transform="translate(0.000000, 630.000000)"><path d="M0,0 L48,3.7 C96,7.4 192,14.8 288,18.5 C384,22.2 480,22.2 576,19.725625 C672,17.34375 768,12.25625 864,8.625625 C960,4.85625 1056,2.54375 1152,4.925625 C1248,7.4 1344,14.8 1392,18.5 L1440,22.2 L1440,37 L1392,37 C1344,37 1248,37 1152,37 C1056,37 960,37 864,37 C768,37 672,37 576,37 C480,37 384,37 288,37 C192,37 96,37 48,37 L0,37 L0,0 Z" /></g></g></g></g></svg>
+    </section>
+
     <section class="ec-section has-wave-top has-wave-bottom ec-section-light-gray">
       <div class="container">
         <div class="columns mobile-margin">
@@ -69,7 +89,8 @@
                     </div>
                   </th>
                 </tr>
-              </thead><tbody>
+              </thead>
+              <tbody>
                 <tr draggable="false" class="">
                   <td data-label=" " class="">
                     <figure class="control image is-32x32">
