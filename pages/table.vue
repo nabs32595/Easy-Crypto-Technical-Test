@@ -12,7 +12,7 @@
       </div>
     </section>
 
-    <section class="ec-section  ec-section-light-gray">
+    <section class="ec-section ec-section-light-gray">
       <div class="container is-max-widescreen">
         <div v-if="checkedRows.length> 0">
           <div class="columns mobile-margin">
@@ -27,25 +27,10 @@
                 </div>
               </div>
             </div>
-            <div class="column is-4 has-text-align-right">
-              <div class="field is-grouped">
-                <div class="control is-expanded has-icons-left">
-                  <b-input
-                    v-model="filterName"
-                    placeholder="Filter list"
-                    icon="magnify"
-                    icon-clickable
-                    icon-right-clickable
-                    icon-right="close-circle"
-                    @icon-right-click="filterName = []"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
           <b-table
             ref="multiSortTable"
-            class="mb-5"
+            class="mb-5 box box-shadow"
             :data="checkedRows"
             :mobile-cards="false"
             checkable
@@ -84,7 +69,15 @@
             </b-table-column>
           </b-table>
         </div>
+      </div>
+    </section>
 
+    <section class="ec-section ec-section-white">
+      <topCoinOfTheWeek />
+    </section>
+
+    <section class="ec-section ec-section-light-gray">
+      <div class="container is-max-widescreen">
         <div class="columns mobile-margin">
           <div class="column">
             <div class="level">
@@ -120,7 +113,7 @@
         </div>
         <b-table
           ref="multiSortTable"
-          class="mobile-margin box"
+          class="box box-shadow"
           :data="filter"
           :paginated="true"
           :per-page="20"
@@ -165,13 +158,28 @@
         </b-table>
       </div>
     </section>
+
+    <div id="mobile-bar">
+      <div class="mb-button">
+        <i class="fas fa-chart-line" />
+      </div>
+      <div class="mb-button">
+        <i class="fab fa-btc" />
+      </div>
+      <div class="mb-button mb-selected">
+        <i class="fas fa-list-ul" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 
+import TopCoinOfTheWeek from '../components/topCoinOfTheWeek'
+
 export default {
   name: 'Table',
+  components: { TopCoinOfTheWeek },
   data () {
     return {
       starCoin: [],
@@ -218,14 +226,13 @@ export default {
 </script>
 
 <style scoped>
-
-.ec-section-light-gray {
-  background-color: #F6F9FE;
-}
-
 .ec-section {
   position: relative;
   padding: 50px 0;
+}
+
+.ec-section-light-gray {
+  background-color: #f6f9fd;
 }
 
 .ec-section-purple {
