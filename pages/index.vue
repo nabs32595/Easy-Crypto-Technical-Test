@@ -84,7 +84,6 @@
           <div class="column level level-item has-text-align-left has-text-centered-mobile">
             <h2 class="title is-4 is-size-5-mobile">
               All Rates
-              {{ removeColumn }}
             </h2>
           </div>
 
