@@ -53,7 +53,7 @@
             </b-table-column>
 
             <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
-              {{ props.row.rate ? props.row.rate: " " }}
+              {{ props.row.rate.toFixed(2) ? props.row.rate.toFixed(2) : " " }}
             </b-table-column>
 
             <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
@@ -80,19 +80,15 @@
 
     <section class="ec-section ec-section-light-gray">
       <div class="container is-max-widescreen column">
-        <div class="columns mobile-margin">
-          <div class="column">
-            <div class="level">
-              <div class="level-left level-item">
-                <div class="level-item">
-                  <h2 class="title is-4">
-                    All Rates
-                  </h2>
-                </div>
-              </div>
-            </div>
+        <div class="columns">
+          <div class="column level level-item has-text-align-left has-text-centered-mobile">
+            <h2 class="title is-4 is-size-5-mobile">
+              All Rates
+              {{ removeColumn }}
+            </h2>
           </div>
-          <div class="column is-4 has-text-align-right">
+
+          <div class=" column is-4 has-text-align-right">
             <div class="field is-grouped">
               <div class="control is-expanded has-icons-left">
                 <b-input
@@ -130,27 +126,45 @@
             </figure>
           </b-table-column>
 
-          <b-table-column v-slot="props" field="name" label="Name" sortable>
+          <b-table-column
+            v-slot="props"
+            field="name"
+            label="Name"
+            sortable
+            :visible="removeColumn"
+          >
             {{ props.row.name }}
           </b-table-column>
 
-          <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
+          <b-table-column
+            v-slot="props"
+            field="symbol"
+            cell-class="has-text-left"
+            label="Symbol"
+            sortable
+          >
             {{ props.row.symbol }}
           </b-table-column>
 
-          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
-            {{ props.row.rate }}
+          <b-table-column
+            v-slot="props"
+            field="rate"
+            cell-class="has-text-left"
+            label="Rate"
+            sortable
+          >
+            {{ props.row.rate.toFixed(2) }}
           </b-table-column>
 
-          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy" :visible="removeColumn">
             ${{ props.row.rank }}
           </b-table-column>
 
-          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell">
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell" :visible="removeColumn">
             ${{ props.row.rank }}
           </b-table-column>
 
-          <b-table-column v-slot="props" label="Action">
+          <b-table-column v-slot="props" label="Action" :visible="false">
             <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
           </b-table-column>
         </b-table>
@@ -168,6 +182,8 @@ export default {
   components: { TopCoinOfTheWeek },
   data () {
     return {
+      removeColumn: true,
+      windowWidth: 1,
       favCoin: [],
       favCoinRows: [],
       checkedRows: [],
@@ -200,6 +216,9 @@ export default {
     favCoinRows () {
       this.favCoin = this.favCoin.filter(item => !this.favCoinRows.includes(item))
       localStorage.setItem('favCoin', JSON.stringify(this.favCoin))
+    },
+    windowWidth () {
+      this.removeColumn = this.windowWidth > 768
     }
   },
   created () {
@@ -209,6 +228,13 @@ export default {
   },
   mounted () {
     this.favCoin = JSON.parse(localStorage.getItem('favCoin') || '[]')
+
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize)
+    })
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize)
   },
   methods: {
     snackbar (payload) {
@@ -216,6 +242,9 @@ export default {
         type: 'is-success',
         message: `$${payload} has been transferred to your account 😀`
       })
+    },
+    onResize () {
+      this.windowWidth = window.innerWidth
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="container is-max-widescreen">
     <div class="columns">
       <div class="column">
-        <h2 class="title is-4">
+        <h2 class="title is-4 is-size-5-mobile">
           Top Gainers Today
         </h2>
         <div class="box mb-3">
@@ -41,7 +41,7 @@
               </div>
               <div class="level-item">
                 <span>
-                  THORChain
+                  THOR
                 </span><span class="has-text-grey-light is-size-6">&nbsp;(RUNE)</span>
               </div>
             </div>
@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="column">
-        <h2 class="title is-4">
+        <h2 class="title is-4 is-size-5-mobile">
           Top Gainers This Week
         </h2>
         <div class="box mb-3">
