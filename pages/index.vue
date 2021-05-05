@@ -44,7 +44,7 @@
               </figure>
             </b-table-column>
 
-            <b-table-column v-slot="props" field="name" label="Name" sortable>
+            <b-table-column v-slot="props" field="name" label="Name" sortable :visible="removeColumn">
               {{ props.row.name }}
             </b-table-column>
 
@@ -56,15 +56,15 @@
               {{ props.row.rate.toFixed(2) ? props.row.rate.toFixed(2) : " " }}
             </b-table-column>
 
-            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy">
+            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Buy" :visible="removeColumn">
               ${{ props.row.rank }}
             </b-table-column>
 
-            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell">
+            <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Sell" :visible="removeColumn">
               ${{ props.row.rank }}
             </b-table-column>
 
-            <b-table-column v-slot="props" label="Action">
+            <b-table-column v-slot="props" label="Action" :visible="removeColumn">
               <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
             </b-table-column>
           </b-table>
@@ -126,33 +126,15 @@
             </figure>
           </b-table-column>
 
-          <b-table-column
-            v-slot="props"
-            field="name"
-            label="Name"
-            sortable
-            :visible="removeColumn"
-          >
+          <b-table-column v-slot="props" field="name" label="Name" sortable :visible="removeColumn">
             {{ props.row.name }}
           </b-table-column>
 
-          <b-table-column
-            v-slot="props"
-            field="symbol"
-            cell-class="has-text-left"
-            label="Symbol"
-            sortable
-          >
+          <b-table-column v-slot="props" field="symbol" cell-class="has-text-left" label="Symbol" sortable>
             {{ props.row.symbol }}
           </b-table-column>
 
-          <b-table-column
-            v-slot="props"
-            field="rate"
-            cell-class="has-text-left"
-            label="Rate"
-            sortable
-          >
+          <b-table-column v-slot="props" field="rate" cell-class="has-text-left" label="Rate" sortable>
             {{ props.row.rate.toFixed(2) }}
           </b-table-column>
 
@@ -164,7 +146,7 @@
             ${{ props.row.rank }}
           </b-table-column>
 
-          <b-table-column v-slot="props" label="Action" :visible="false">
+          <b-table-column v-slot="props" label="Action" :visible="removeColumn">
             <b-button size="is-small" type="is-success" rounded label="Buy" @click="snackbar(props.row.rank)" />
           </b-table-column>
         </b-table>
